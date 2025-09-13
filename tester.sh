@@ -191,7 +191,7 @@ function execute_test() {
       line=$(rtype add)
       ;;
     "addiu")
-      line=$(itype addiu)
+      line=$(itype1 addiu)
       ;;
     "and")
       line=$(rtype and)
