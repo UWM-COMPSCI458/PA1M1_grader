@@ -211,6 +211,9 @@ function execute_test() {
     "lui")
       line=$(itype2 lui)
       ;;
+    "lw")
+      line=$(echo -en "$(ws)lw$(ws)$(reg)$(ws),$(ws)0x1001$(printf "%x\n" $RANDOM)$(ws)$(comment)")
+      ;;
     "or")
       line=$(rtype or)
       ;;
@@ -222,6 +225,9 @@ function execute_test() {
       ;;
     "sub")
       line=$(rtype sub)
+      ;;
+    "sw")
+      line=$(echo -en "$(ws)sw$(ws)$(reg)$(ws),$(ws)0x1001$(printf "%x\n" $RANDOM)$(ws)$(comment)")
       ;;
     "syscall")
       line=$(echo -en "$(ws)syscall$(ws)$(comment)")
@@ -244,8 +250,8 @@ function execute_test() {
   fi
 }
 
-instructions=("add" "andiu" "and" "andi" "beq" "bne"
-"j" "lui" "or" "ori" "slt" "sub" "syscall")
+instructions=("add" "addiu" "and" "andi" "beq" "bne"
+"j" "lui" "lw" "or" "ori" "slt" "sub" "sw" "syscall")
 
 echo
 
