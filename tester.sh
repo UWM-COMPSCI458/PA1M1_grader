@@ -185,6 +185,21 @@ function itype2() {
   echo -en "$(ws)$1$(ws)$(reg)$(ws),$(imm)$(ws)$(comment)" 
 }
 
+function memtype() {
+  rnd=$RANDOM
+  ty=$(( RANDOM % 2 ))
+
+  # If offset is present
+  if [[ $ty -eq 0 ]]; then
+    offset=$(( RANDOM % 1024 ))
+    echo -en "$(ws)$1$(ws)$(reg)$(ws),$(ws)$offset$(ws)($(reg))$(ws)$(comment)"
+
+  # if offset is not present
+  else
+    echo -en "$(ws)$1$(ws)$(reg)$(ws),$(ws)($(reg))$(ws)$(comment)"
+  fi
+}
+
 function execute_test() {
   case $1 in
     "add")
@@ -212,7 +227,7 @@ function execute_test() {
       line=$(itype2 lui)
       ;;
     "lw")
-      line=$(echo -en "$(ws)lw$(ws)$(reg)$(ws),$(ws)0x1001$(printf "%x\n" $RANDOM)$(ws)$(comment)")
+      line=$(memtype lw)
       ;;
     "or")
       line=$(rtype or)
@@ -227,7 +242,7 @@ function execute_test() {
       line=$(rtype sub)
       ;;
     "sw")
-      line=$(echo -en "$(ws)sw$(ws)$(reg)$(ws),$(ws)0x1001$(printf "%x\n" $RANDOM)$(ws)$(comment)")
+      line=$(memtype sw)
       ;;
     "syscall")
       line=$(echo -en "$(ws)syscall$(ws)$(comment)")
